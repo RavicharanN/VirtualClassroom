@@ -30,3 +30,12 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.enrollment_no
+
+class Material(models.Model):
+    material_name = models.CharField(max_length = 35, null = False, blank = False)
+    material_link = models.CharField(max_length = 255, null = False, blank = False, unique = True)
+    uploaded_by = models.CharField(max_length = 35, null = False, blank = False)
+    related_course = models.ForeignKey(Course, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.material_name, self.uploaded_by)
