@@ -41,7 +41,7 @@ class Material(models.Model):
     material_link = models.CharField(max_length = 255, null = False, blank = False, unique = True)
     uploaded_by = models.CharField(max_length = 35, null = False, blank = False)
     related_course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    tpye = models.CharField(max_length = 3, choices = M_TYPE)
+    m_type = models.CharField(max_length = 3, choices = M_TYPE)
 
     def __str__(self):
         return "%s %s" % (self.material_name, self.uploaded_by)
