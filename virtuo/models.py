@@ -36,34 +36,23 @@ class Material(models.Model):
         ('PPT', 'Presentation'),
         ('VID', 'Video'),
     )
-
+    # material_id1 = models.CharField(max_length = 35, null = False, blank = False, primary_key = True)
     material_name = models.CharField(max_length = 35, null = False, blank = False)
     material_link = models.CharField(max_length = 255, null = False, blank = False, unique = True)
     uploaded_by = models.CharField(max_length = 35, null = False, blank = False)
     related_course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    m_type = models.CharField(max_length = 3, choices = M_TYPE)
+    m_type = models.CharField(max_length = 3, choices = M_TYPE, default = 'PPT')
 
     def __str__(self):
         return "%s %s" % (self.material_name, self.uploaded_by)
 
-
-
-
-class login(models.Model):
-    U_TYPE = (
-        ('1', 'Student'),
-        ('2', 'Faculty'),
-        ('3', 'Admin'),
-    )
-
-    user_name = models.CharField(max_length = 35, null = False, blank = False, primary_key = True)
-    pwhash = models.CharField(max_length = 30, null = False, blank = False)
-    user_type = models.CharField(max_length = 1, choices = U_TYPE)
-
-class Q_A(models.Model):
-    QID = models.CharField(max_length = 35, null = False, blank = False, primary_key = True) #Add verbose name
-    Material_ID = models.ForeignKey(Material, on_delete = models.CASCADE)
-    Question = models.TextField(null = True, blank = True)
-    Asked_By = models.CharField(max_length = 10)
-    Answered_By = models.CharField(max_length = 10)
+class Question(models.Model):
+    question_id = models.CharField(max_length = 35, null = False, blank = False, primary_key = True) #Add verbose name
+    material_id = models.ForeignKey(Material, on_delete = models.CASCADE)
+    question = models.TextField(null = True, blank = True)
+    asked_by = models.CharField(max_length = 10)
+    answered_by = models.CharField(max_length = 10)
     date_time = models.DateTimeField(auto_now=False, auto_now_add=False)
+
+    def __str__(self):
+        return "%s %s" % (self.question_id, self.material_id)
