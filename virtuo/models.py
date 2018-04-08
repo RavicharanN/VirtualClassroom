@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -14,6 +14,7 @@ class Course(models.Model):
         return "%s %s %s" % (self.course_name, self.course_id, self.credits)
 
 class Student(models.Model):
+    user = models.OneToOneField(User, on_delete= models.CASCADE, default = 1)
     first_name = models.CharField(max_length = 35, null = False, blank = False)
     last_name = models.CharField(max_length = 35, null = False, blank = False)
     enrollment_no = models.CharField(max_length = 35, primary_key = True ,unique = True, null = False, blank = False)
@@ -23,6 +24,7 @@ class Student(models.Model):
         return self.enrollment_no
 
 class Teacher(models.Model):
+    user = models.OneToOneField(User, on_delete= models.CASCADE, default = 1)
     first_name = models.CharField(max_length = 35, null = False, blank = False)
     last_name = models.CharField(max_length = 35, null = False, blank = False)
     teacher_id = models.CharField(max_length = 35, primary_key = True ,unique = True, null = False, blank = False)
