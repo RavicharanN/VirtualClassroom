@@ -15,8 +15,6 @@ class Course(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, default = 1)
-    first_name = models.CharField(max_length = 35, null = False, blank = False)
-    last_name = models.CharField(max_length = 35, null = False, blank = False)
     enrollment_no = models.CharField(max_length = 35, primary_key = True ,unique = True, null = False, blank = False)
     courses = models.ManyToManyField(Course)
 
@@ -25,8 +23,6 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, default = 1)
-    first_name = models.CharField(max_length = 35, null = False, blank = False)
-    last_name = models.CharField(max_length = 35, null = False, blank = False)
     teacher_id = models.CharField(max_length = 35, primary_key = True ,unique = True, null = False, blank = False)
     courses = models.ManyToManyField(Course)
 
