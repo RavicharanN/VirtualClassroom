@@ -2,7 +2,7 @@ from .models import Course, Student, Teacher, Material, Question
 from django.contrib.auth.models import User
 from django import forms
 
-class UserForm(forms.ModelFom):
+class UserForm(forms.ModelForm):
     password = forms.CharField(widget= forms.PasswordInput)
     class Meta:
         model = User
