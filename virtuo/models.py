@@ -29,17 +29,23 @@ class Teacher(models.Model):
     def __str__(self):
         return self.teacher_id
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return '{0}/{1}'.format(instance.uploaded_by, filename)
+
+
 class Material(models.Model):
     M_TYPE = (
         ('PPT', 'Presentation'),
         ('VID', 'Video'),
     )
-    # material_id1 = models.CharField(max_length = 35, null = False, blank = False, primary_key = True)
+
+
     material_name = models.CharField(max_length = 35, null = False, blank = False)
-    material_link = models.CharField(max_length = 255, null = False, blank = False, unique = True)
-    uploaded_by = models.CharField(max_length = 35, null = False, blank = False)
-    related_course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    m_type = models.CharField(max_length = 3, choices = M_TYPE, default = 'PPT')
+    material_link = models.FileField(upload_to = user_directory_path, null = True, blank = True)
+    uploaded_by = models.CharField(max_length = 35, null = True, blank = True)
+    related_course = models.ForeignKey(Course, on_delete = models.CASCADE, null = False)
+    m_type = models.CharField(max_length = 3, choices = M_TYPE, null = True)
 
     def __str__(self):
         return "%s %s" % (self.material_name, self.uploaded_by)
