@@ -27,6 +27,7 @@ class MaterialModelForm(forms.ModelForm):
             "material_link",
             "related_course",
             "m_type",
+            "uploaded_by"
             ]
         # widgets = {
         #   "description": forms.Textarea(
