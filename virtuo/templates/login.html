@@ -12,9 +12,8 @@
     	{% csrf_token %}
         <input id="id_username" type="text" placeholder="username" name="username"/>
         <input id="id_password" type="password" placeholder="password" name="password"/>
-        <button type='submit' class="center">Login</button>
-        <!-- <br><br>
-        <button class="center"><a href="{% url 'student:register' %}" style="color:white;">Register</a></button> -->
+        <a href="{% url 'first_view' %}"><button type='submit' class="center">Login</button></a>
+         <br><br>
 	</form>
 </body>
 </html>
