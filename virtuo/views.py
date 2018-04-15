@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import View, CreateView
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserForm, StudentForm, TeacherForm
+from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm
+from .models import Material
 
 # Create your views here.
 
@@ -91,3 +92,9 @@ class TeacherRegister(View):
             teacher.save()
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
+
+class MaterialCreateView(CreateView):
+    model = Material
+    template_name = "addCourse.html"
+    form_class = MaterialModelForm
+    success_url = "/itsAddedRenameThis/"
