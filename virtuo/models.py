@@ -27,7 +27,7 @@ class Teacher(models.Model):
     courses = models.ManyToManyField(Course)
 
     def __str__(self):
-        return self.enrollment_no
+        return self.teacher_id
 
 class Material(models.Model):
     M_TYPE = (

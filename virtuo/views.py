@@ -50,19 +50,44 @@ class UserRegister(View):
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
 
-# class StudentRegister(View):
-#     form_class = StudentForm
-#     template_name = 'virtuo/studentregister'
+class StudentRegister(View):
+    form_class = StudentForm
+    template_name = 'studentregister.html'
 
-#     def get(self, request):
-#         form = self.form_class(None)
-#         return render(request, self.template_name, {'form':form})
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = self.form_class(None)
+            return render(request, self.template_name, {'form':form})
+        return redirect('register')
 
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             student = form.save(commit=False)
-#             student.user = request.user\
-#             student.save()
-#             return redirect('virtuo:first_view')
-#         return render(request, self.template_name, {'form':form})
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.user = request.user
+            enrollment_no = form.cleaned_data['enrollment_no'] 
+            courses = form.cleaned_data['courses']
+            print(enrollment_no)
+            print(courses)
+            student.save()
+            return redirect('first_view')
+        return render(request, self.template_name, {'form':form})
+
+class TeacherRegister(View):
+    form_class = TeacherForm
+    template_name = 'teacherregister.html'
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = self.form_class(None)
+            return render(request, self.template_name, {'form':form})
+        return redirect('register')
+    
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            teacher = form.save(commit=False)
+            teacher.user = request.user
+            teacher.save()
+            return redirect('first_view')
+        return render(request, self.template_name, {'form':form})
