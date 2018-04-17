@@ -5,13 +5,21 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserForm, StudentForm, TeacherForm
+from .models import Student, Teacher, Question, Course, Material
 
 # Create your views here.
 
 def first_view(request):
+    logged_in_as = None
     if not request.user.is_authenticated:
-        return render(request, 'text.html', {'name':'Not authenticated','logout_button':True})
-    return render(request, 'text.html', {'name':request.user.username,'logout_button':False})
+        return render(request, 'text.html', {'name':'Not authenticated','logout_button':False,'logged_in_as':logged_in_as})
+    student_list_check = Student.objects.filter(user=request.user)
+    # print(student_list_check)
+    if Student.objects.filter(user=request.user):
+        logged_in_as = "Student"
+    elif Teacher.objects.filter(user=request.user):
+        logged_in_as = "Teacher"
+    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as})
 
 def login_view(request):
     if request.method == 'POST':
