@@ -18,12 +18,12 @@ def first_view(request):
     # print(student_list_check)
     if Student.objects.filter(user=request.user):
         logged_in_as = "Student"
-        student_details = Student.objects.filter(user=request.user).values()
+        student_details = Student.objects.filter(user=request.user).values('courses')
         for i in student_details:
             print(i)
         print(student_details)
-        all_course_fields = Student.objects.all().values('courses')
-        print(all_course_fields)
+        # all_course_fields = Student.objects.all().values('courses')
+        # print(all_course_fields)
     elif Teacher.objects.filter(user=request.user):
         logged_in_as = "Teacher"
     courses_list = Course.objects.all()
@@ -95,6 +95,8 @@ class StudentRegister(View):
             student.user = request.user
             enrollment_no = form.cleaned_data['enrollment_no'] 
             courses = form.cleaned_data['courses']
+            for i in courses:
+                student.courses.add(i)
             print(enrollment_no)
             print(courses)
             student.save()
