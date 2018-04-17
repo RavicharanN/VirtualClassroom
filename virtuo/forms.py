@@ -10,6 +10,7 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
 
 class StudentForm(forms.ModelForm):
+    courses = forms.ModelMultipleChoiceField(queryset=Course.objects.all())
     class Meta:
         model = Student
         fields = ['enrollment_no', 'courses']

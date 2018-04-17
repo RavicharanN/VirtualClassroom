@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from django.views.generic import View, CreateView
+from django.views.generic import View, CreateView, DetailView
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.models import User
 from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm
 from .models import Material, Student, Teacher, Question, Course
 
@@ -14,19 +14,30 @@ def first_view(request):
     logged_in_as = None
     if not request.user.is_authenticated:
         return render(request, 'text.html', {'name':'Not authenticated','logout_button':False,'logged_in_as':logged_in_as})
-    student_list_check = Student.objects.filter(user=request.user)
+    # student_list_check = Student.objects.filter(user=request.user)
     # print(student_list_check)
     if Student.objects.filter(user=request.user):
         logged_in_as = "Student"
+        student_details = Student.objects.filter(user=request.user).values()
+        for i in student_details:
+            print(i)
+        print(student_details)
+        all_course_fields = Student.objects.all().values('courses')
+        print(all_course_fields)
     elif Teacher.objects.filter(user=request.user):
         logged_in_as = "Teacher"
-    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as})
+    courses_list = Course.objects.all()
+    student_list = Student.objects.all()
+    teacher_list = Student.objects.all()
+    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_list':courses_list, 'teacher_list':teacher_list, 'student_list':student_list})
 
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
+        print(username)
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
+        print(user)
         if user is not None:
             login(request, user)
             return redirect('first_view')
@@ -52,12 +63,20 @@ class UserRegister(View):
         if form.is_valid():
             user = form.save(commit=False)
             username = form.cleaned_data['username']
-            print(username+"vjh")
+            password = form.cleaned_data['password']
+            # email = form.cleaned_data['email']
+            user.is_active = True
+            user.set_password(password)
+            print(password+"vjh")
             user.save()
             message = "registered successfully"
             login(request, user)
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
+
+class DetailView(DetailView):
+    model = User
+    template_name = 'detail.html'
 
 class StudentRegister(View):
     form_class = StudentForm

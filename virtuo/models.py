@@ -16,7 +16,7 @@ class Course(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, default = 1)
     enrollment_no = models.CharField(max_length = 35, primary_key = True ,unique = True, null = False, blank = False)
-    courses = models.ManyToManyField(Course)
+    courses = models.ManyToManyField(Course, default= 'None selected')
 
     def __str__(self):
         return self.enrollment_no
