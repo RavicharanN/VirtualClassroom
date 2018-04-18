@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Material</h1>
+<ul>
+{% for material in object_list %}
+    <li>{{ material.material_name }} - {{ material.related_course }}</li>
+{% empty %}
+    <li>No material yet.</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
