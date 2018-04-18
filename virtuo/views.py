@@ -14,22 +14,17 @@ def first_view(request):
     logged_in_as = None
     if not request.user.is_authenticated:
         return render(request, 'text.html', {'name':'Not authenticated','logout_button':False,'logged_in_as':logged_in_as})
-    # student_list_check = Student.objects.filter(user=request.user)
-    # print(student_list_check)
     if Student.objects.filter(user=request.user):
         logged_in_as = "Student"
-        student_details = Student.objects.filter(user=request.user).values('courses')
-        for i in student_details:
-            print(i)
-        print(student_details)
-        # all_course_fields = Student.objects.all().values('courses')
-        # print(all_course_fields)
+        course_details = Student.objects.filter(user=request.user).values('courses')
+        # courses = []
+        for i in course_details:
+            print(i.values())
+        print(course_details)
     elif Teacher.objects.filter(user=request.user):
         logged_in_as = "Teacher"
-    courses_list = Course.objects.all()
-    student_list = Student.objects.all()
-    teacher_list = Student.objects.all()
-    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_list':courses_list, 'teacher_list':teacher_list, 'student_list':student_list})
+        course_details = Student.objects.filter(user=request.user).values('courses')
+    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_details':course_details})
 
 def login_view(request):
     if request.method == 'POST':

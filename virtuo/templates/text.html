@@ -10,8 +10,17 @@
     <h1>Project lulz </h1>
     <h3>Authored by: {{name}} </h3>
     <h3>Logged in as : {{logged_in_as}}</h3>
-    
+    {% if logged_in_as == "Teacher" %}
+        <h3>The courses taught by you are:</h3>
+        {% for course in course_details %}
+        <p>course</p>
+        {% endfor %} 
+    {% elif logged_in_as == "Student" %}
+        <h3>Courses enrolled in by you are:</h3>
+        {% for course in course_details %}
+        <p>{{course.courses}}</p>
+        {% endfor %}
+    {% endif %}
     <a href="{% url 'logout' %}">Logout</a>
-   
 </body>
 </html>
