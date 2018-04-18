@@ -2,16 +2,18 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from django.views.generic import View, CreateView, DetailView
+from django.views.generic import View, DetailView, CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm
 from .models import Material, Student, Teacher, Question, Course
 
+
 # Create your views here.
 
 def first_view(request):
     logged_in_as = None
+    course_details = None  
     if not request.user.is_authenticated:
         return render(request, 'text.html', {'name':'Not authenticated','logout_button':False,'logged_in_as':logged_in_as})
     if Student.objects.filter(user=request.user):
@@ -69,9 +71,9 @@ class UserRegister(View):
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
 
-class DetailView(DetailView):
-    model = User
-    template_name = 'detail.html'
+# class DetailView(DetailView):
+#     model = User
+#     template_name = 'detail.html'
 
 class StudentRegister(View):
     form_class = StudentForm
@@ -117,8 +119,33 @@ class TeacherRegister(View):
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
 
-class MaterialCreateView(CreateView):
+class MaterialCreateView(View):
     model = Material
     template_name = "addCourse.html"
     form_class = MaterialModelForm
-    success_url = "/itsAddedRenameThis/"
+    # success_url = "/view/"
+    # uploaded_by = request.user.username;
+
+    # @method_decorator(login_required)
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form':form})
+
+    def post(self, request):    
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            material = form.save(commit=False)
+            material.uploaded_by = request.user.username
+            material.save()
+            return redirect('first_view')
+        return render(request, self.template_name, {'form':form})
+
+class MaterialDetailView(DetailView):
+    model = Material
+
+class MaterialDeleteView(DeleteView):
+    model = Material
+    success_url = "/"
+
+class MaterialListView(ListView):
+    model = Material
