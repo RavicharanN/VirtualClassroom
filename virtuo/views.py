@@ -8,25 +8,29 @@ from django.contrib.auth.models import User
 from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm
 from .models import Material, Student, Teacher, Question, Course
 
-
 # Create your views here.
 
 def first_view(request):
     logged_in_as = None
     course_details = None  
+    courses = []
     if not request.user.is_authenticated:
         return render(request, 'text.html', {'name':'Not authenticated','logout_button':False,'logged_in_as':logged_in_as})
     if Student.objects.filter(user=request.user):
         logged_in_as = "Student"
         course_details = Student.objects.filter(user=request.user).values('courses')
-        # courses = []
         for i in course_details:
             print(i.values())
+            temp = Course.objects.filter(course_id=i.values()[0]).values()
+            print(temp)
+            courses.append(Course.objects.filter(course_id=i.values()[0]).values())
+        print(courses)
         print(course_details)
     elif Teacher.objects.filter(user=request.user):
         logged_in_as = "Teacher"
-        course_details = Student.objects.filter(user=request.user).values('courses')
-    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_details':course_details})
+        course_details = Teacher.objects.filter(user=request.user).values('courses')
+        courses.append(Course.objects.filter(course_id=i.values()[0]))
+    return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_details':course_details, 'courses':courses})
 
 def login_view(request):
     if request.method == 'POST':

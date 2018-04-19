@@ -12,13 +12,23 @@
     <h3>Logged in as : {{logged_in_as}}</h3>
     {% if logged_in_as == "Teacher" %}
         <h3>The courses taught by you are:</h3>
-        {% for course in course_details %}
-        <p>course</p>
-        {% endfor %} 
+        <h4>ID &nbsp; Name &nbsp; Credits</h4>
+        {% for course in courses %} 
+            <!--  -->
+            {% for value in course %}
+                <p>{{value.course_id}}  &nbsp; {{value.course_name}} &nbsp; {{value.credits}}</p>
+                {% endfor %}
+            
+        {% endfor %}
     {% elif logged_in_as == "Student" %}
         <h3>Courses enrolled in by you are:</h3>
-        {% for course in course_details %}
-        <p>{{course.courses}}</p>
+        <h4>ID &nbsp; Name &nbsp; Credits</h4>
+        {% for course in courses %} 
+            <!--  -->
+            {% for value in course %}
+                <p>{{value.course_id}}  &nbsp; {{value.course_name}} &nbsp; {{value.credits}}</p>
+                {% endfor %}
+            
         {% endfor %}
     {% endif %}
     <a href="{% url 'logout' %}">Logout</a>
