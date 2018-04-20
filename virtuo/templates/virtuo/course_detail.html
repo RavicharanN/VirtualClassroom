@@ -8,7 +8,9 @@
 <h3>Course Name: {{ object.course_name }}</h3>
 <p>Course Code: {{ object.course_id }}</p>
 <p>Credits: {{ object.credits }}</p>
-<p>Taught by: </p>
-
+<h4>Taught by:</h4>
+{% for item in taught_by %}
+<p>{{item}}<p>
+{% endfor %}
 </body>
 </html>

@@ -29,7 +29,13 @@ def first_view(request):
     elif Teacher.objects.filter(user=request.user):
         logged_in_as = "Teacher"
         course_details = Teacher.objects.filter(user=request.user).values('courses')
-        courses.append(Course.objects.filter(course_id=i.values()[0]))
+        for i in course_details:
+            print(i.values())
+            temp = Course.objects.filter(course_id=i.values()[0]).values()
+            print(temp)
+            courses.append(Course.objects.filter(course_id=i.values()[0]).values())
+        print(courses)
+        print(course_details)
     return render(request, 'text.html', {'name':request.user.username,'logout_button':True,'logged_in_as':logged_in_as, 'course_details':course_details, 'courses':courses})
 
 def login_view(request):
@@ -119,6 +125,9 @@ class TeacherRegister(View):
         if form.is_valid():
             teacher = form.save(commit=False)
             teacher.user = request.user
+            courses = form.cleaned_data['courses']
+            for i in courses:
+                teacher.courses.add(i)
             teacher.save()
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
@@ -159,3 +168,18 @@ class CourseListView(ListView):
 
 class CourseDetailView(DetailView):
     model = Course
+
+    def get_context_data(self, **kwargs):
+        object = kwargs['object']
+        taught_by = []
+        users = User.objects.all()
+        for item in users:
+            if Teacher.objects.filter(user=item):
+                course_details = Teacher.objects.filter(user=item).values('courses')
+                for course in course_details:
+                    print(course['courses'])
+                    if object.course_id == course['courses']: 
+                        # print(item.username) 
+                        taught_by.append(item.username)
+        context = {'object':object,'name':'lulz','taught_by':taught_by}
+        return context

@@ -18,5 +18,4 @@ urlpatterns = [
     url(r'^view/$', views.MaterialListView.as_view(), name='material-list'),
     url(r'^course-list/$', views.CourseListView.as_view(), name='course-list'),
 	url(r'^course/(?P<pk>[\w-]+)/$', views.CourseDetailView.as_view(), name='course-detail'),
-
 ]
