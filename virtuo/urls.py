@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^create/$', views.MaterialCreateView.as_view(), name='create'),
 	url(r'^view/(?P<pk>\d+)/$', views.MaterialDetailView.as_view(), name='detail'),
     url(r'^delete/(?P<pk>\d+)/$', views.MaterialDeleteView.as_view(), name='delete'),
-    url(r'^view/$', views.MaterialListView.as_view(), name='naterial-list'),
+    url(r'^view/$', views.MaterialListView.as_view(), name='material-list'),
+    url(r'^course-list/$', views.CourseListView.as_view(), name='course-list'),
+	url(r'^course/(?P<pk>[\w-]+)/$', views.CourseDetailView.as_view(), name='course-detail'),
 
 ]

@@ -153,3 +153,9 @@ class MaterialDeleteView(DeleteView):
 
 class MaterialListView(ListView):
     model = Material
+
+class CourseListView(ListView):
+    model = Course
+
+class CourseDetailView(DetailView):
+    model = Course

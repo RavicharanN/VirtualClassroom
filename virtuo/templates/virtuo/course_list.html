@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Courses</h1>
+<ul>
+{% for course in object_list %}
+    <li>{{ course.course_name }} - {{ course.course_id }} - {{ course.credits }}</li>
+{% empty %}
+    <li>No Courses yet.</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
