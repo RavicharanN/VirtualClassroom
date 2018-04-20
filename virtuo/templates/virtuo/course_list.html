@@ -6,13 +6,13 @@
 <body>
 
 <h1>Courses</h1>
-<ul>
+<ol>
 {% for course in object_list %}
-    <li>{{ course.course_name }} - {{ course.course_id }} - {{ course.credits }}</li>
+    <li> <a href="{{ course.course_id}}"> {{ course.course_name }} </a> - {{ course.course_id }} - {{ course.credits }}</li>
 {% empty %}
     <li>No Courses yet.</li>
 {% endfor %}
-</ul>
+</ol>
 
 </body>
 </html>

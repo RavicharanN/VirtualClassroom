@@ -172,6 +172,8 @@ class CourseDetailView(DetailView):
     def get_context_data(self, **kwargs):
         object = kwargs['object']
         taught_by = []
+        material = Material.objects.filter(related_course=object.course_id)
+        print(material)
         users = User.objects.all()
         for item in users:
             if Teacher.objects.filter(user=item):
@@ -181,5 +183,5 @@ class CourseDetailView(DetailView):
                     if object.course_id == course['courses']: 
                         # print(item.username) 
                         taught_by.append(item.username)
-        context = {'object':object,'name':'lulz','taught_by':taught_by}
+        context = {'object':object,'name':'lulz','taught_by':taught_by,'material':material}
         return context

@@ -18,7 +18,7 @@
             {% for value in course %}
                 <p>{{value.course_id}}  &nbsp; {{value.course_name}} &nbsp; {{value.credits}}</p>
                 {% endfor %}
-            
+                
         {% endfor %}
     {% elif logged_in_as == "Student" %}
         <h3>Courses enrolled in by you are:</h3>

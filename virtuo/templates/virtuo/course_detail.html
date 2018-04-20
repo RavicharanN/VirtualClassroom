@@ -10,7 +10,12 @@
 <p>Credits: {{ object.credits }}</p>
 <h4>Taught by:</h4>
 {% for item in taught_by %}
-<p>{{item}}<p>
+    <p>{{item}}<p>
 {% endfor %}
+<h4>Material related</h4>
+<ol>{% for item in material %} 
+    <li>{{item}}</li>
+{% endfor %}</ol>
+
 </body>
 </html>
