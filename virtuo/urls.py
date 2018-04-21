@@ -19,5 +19,8 @@ urlpatterns = [
 	url(r'^view/(?P<pk>\d+)/download$', views.MaterialDownloadView.as_view(), name='download'),
     url(r'^courses/$', views.CourseListView.as_view(), name='course-list'),
 	url(r'^courses/(?P<pk>[\w-]+)/$', views.CourseDetailView.as_view(), name='course-detail'),
-    url(r'choose/', views.choose_view, name='choose')
+    url(r'choose/', views.choose_view, name='choose'),
+    url(r'^profile/$', views.view_profile, name='view_profile'),
+    url(r'^profile/edit/$', views.edit_profile, name='edit_profile'),
+    url(r'^profile/password/$', views.change_password, name='change_password'),
 ]

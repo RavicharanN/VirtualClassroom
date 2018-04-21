@@ -8,8 +8,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, DetailView, CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm
+from .forms import UserForm, StudentForm, TeacherForm, MaterialModelForm, EditProfileForm
 from .models import Material, Student, Teacher, Question, Course
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 # Create your views here.
 
@@ -209,3 +212,40 @@ class MaterialDownloadView(DetailView):
         response["Content-Disposition"] = "attachment; filename = %s" %(obj.material_name)
         response["X-SendFile"] = str(obj.material_name)
         return response
+    
+def view_profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args = {'user': user}
+    return render(request, 'profile.html', args)
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect(('/profile'))
+    else:
+        form = EditProfileForm(instance=request.user)
+        args = {'form': form}
+    return render(request, 'profile_edit.html', args)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('edit_profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form
+    })

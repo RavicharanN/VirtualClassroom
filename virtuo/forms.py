@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 
 from django import forms
 from .models import Course, Student, Teacher, Material, Question
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class UserForm(forms.ModelForm):
     first_name = forms.CharField(label='first_name', widget=forms.TextInput(attrs={'placeholder':'First Name'}))
@@ -47,3 +48,15 @@ class MaterialModelForm(forms.ModelForm):
         #   )
         # }
 
+class EditProfileForm(UserChangeForm):
+    template_name='profile.html'
+
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'password'
+            
+        )
