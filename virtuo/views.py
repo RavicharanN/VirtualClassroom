@@ -179,6 +179,7 @@ class CourseDetailView(DetailView):
     def get_context_data(self, **kwargs):
         object = kwargs['object']
         taught_by = []
+        edit_access = "No"
         material = Material.objects.filter(related_course=object.course_id)
         print(material)
         users = User.objects.all()
@@ -190,7 +191,10 @@ class CourseDetailView(DetailView):
                     if object.course_id == course['courses']: 
                         # print(item.username) 
                         taught_by.append(item.username)
-        context = {'object':object,'name':'lulz','taught_by':taught_by,'material':material}
+        print(self.request.user.username)
+        if self.request.user.username in taught_by:
+            edit_access = "Yes"
+        context = {'object':object,'name':'lulz','taught_by':taught_by,'material':material,'edit_access':edit_access}
         return context
 
 class MaterialDownloadView(DetailView):
