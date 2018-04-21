@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import os
+from django.conf import settings
+from wsgiref.util import FileWrapper
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, DetailView, CreateView, UpdateView, ListView, DeleteView
 from django.contrib.auth import authenticate, login, logout
@@ -145,9 +148,13 @@ class MaterialCreateView(View):
         return render(request, self.template_name, {'form':form})
 
     def post(self, request):    
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             material = form.save(commit=False)
+            material_link = form.cleaned_data['material_link']
+            print(material_link)
+            material_name = form.cleaned_data['material_name']
+            print(material_name)
             material.uploaded_by = request.user.username
             material.save()
             return redirect('first_view')
@@ -185,3 +192,16 @@ class CourseDetailView(DetailView):
                         taught_by.append(item.username)
         context = {'object':object,'name':'lulz','taught_by':taught_by,'material':material}
         return context
+
+class MaterialDownloadView(DetailView):
+    model = Material
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        filepath = os.path.join(settings.MEDIA_ROOT, str(obj.material_link))
+        print(filepath)
+        wrapper = FileWrapper(file(filepath))
+        response = HttpResponse(wrapper, content_type = "application/force-download")
+        response["Content-Disposition"] = "attachment; filename = %s" %(obj.material_name)
+        response["X-SendFile"] = str(obj.material_name)
+        return response

@@ -47,6 +47,9 @@ class Material(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.material_name, self.uploaded_by)
+    
+    def get_material_id(self):
+        return "%d" % (self.id)
 
 class Question(models.Model):
     question_id = models.CharField(max_length = 35, null = False, blank = False, primary_key = True) #Add verbose name

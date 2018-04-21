@@ -8,10 +8,22 @@
 </head>
 <body>
     <h1>Material Addition</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" >Add it!</button>
+                    {% for field in form %}
+                      <p>
+                        {{field.label_tag}}
+                        {{ field }}
+                        {% if field.help_text %}
+                          <small style="color: grey">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                      </p>
+                    {% endfor %}
+                    <a href="{% url 'create' %}"><button type="submit" >Add it!</button></a>
+
     </form>
 </body>
 </html>

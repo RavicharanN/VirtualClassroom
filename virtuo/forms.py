@@ -25,6 +25,7 @@ class TeacherForm(forms.ModelForm):
         fields = ['teacher_id', 'courses']
 
 class MaterialModelForm(forms.ModelForm):
+    # material_link = forms.FileField()
     class Meta:
         model = Material
         fields = [
@@ -32,7 +33,7 @@ class MaterialModelForm(forms.ModelForm):
             "material_link",
             "related_course",
             "m_type",
-            ]
+        ]
                     # widgets = {
         #   "description": forms.Textarea(
         #           attrs={
