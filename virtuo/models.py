@@ -33,13 +33,11 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return '{0}/{1}'.format(instance.uploaded_by, filename)
 
-
 class Material(models.Model):
     M_TYPE = (
         ('PPT', 'Presentation'),
         ('VID', 'Video'),
     )
-
 
     material_name = models.CharField(max_length = 35, null = False, blank = False)
     material_link = models.FileField(upload_to = user_directory_path, null = True, blank = True)

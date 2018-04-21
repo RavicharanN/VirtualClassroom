@@ -81,9 +81,6 @@ class UserRegister(View):
             return redirect('first_view')
         return render(request, self.template_name, {'form':form})
 
-# class DetailView(DetailView):
-#     model = User
-#     template_name = 'detail.html'
 
 class StudentRegister(View):
     form_class = StudentForm
