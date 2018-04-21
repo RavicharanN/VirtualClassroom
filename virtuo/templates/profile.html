@@ -1,19 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Profile</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Material {{object.material_name}}</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:300,400,600,700&amp;lang=en" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'virtuo/tables.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'virtuo/custom.css' %}" />
+    <style>
+        .navli .nava {
+            color: white !important;
+        }
+        .navli:hover .nava:hover {
+            color: #707677 !important;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Profile</h1>
-    <p>Username: {{ user }}</p>
-    <p>First name: {{ user.first_name }}</p>
-    <p>Last name: {{ user.last_name }}</p>
+        <nav class="navbar navbar-inverse"  style ="background-color: #55acee;font-family:Raleway;border-color: #55acee">
+                <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'first_view' %}" style="color:white">Virtuo</a>
+                </div>
+                <!-- items -->
+                <div class="collapse navbar-collapse" id="topNavBar">
+                    <ul class="nav navbar-nav" style="background-color: #55acee" >
+                        <li class="active navli" style="background-color: #55acee"  >
+                            <a href="{% url 'course-list' %}" style="background-color: #55acee" class="nava navli">
+                                Courses
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                       
+                        <li class="navli">
+                            <a href="{% url 'register' %}" class="nava">
+                                <span class="glyphicon glyphicon-off" aria-hidden="true" ></span>&nbsp;
+                                Register
+                            </a>
+                        </li>
+                        <li class="navli">
+                            <a href="{% url 'login' %}" class="nava" >
+                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;
+                                Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </nav>
+            <h1 style="font-family: Raleway; color: #55acee;text-align:center">Your Profile</h1>
+
+            <br><br><br>
+
+ <div class="container">
+    <div class="login-page">
+            <div class="form">
+                <div class="login-form">
+                        <h3 style="font-family: Raleway; text-align:center"> Username: {{ user }}</h3>
+                        <h3 style="font-family: Raleway; text-align:center">First name: {{ user.first_name }}</h3>
+                        <h3 style="font-family: Raleway;text-align:center">Last name: {{ user.last_name }}</h3>
+                        <br>
+                    <a href="edit"> <button>Update Profile</button> </a>
+                </div>
+            </div>
+        </div>
 </div>
-<a href="edit">
-    <button type='submit' class="center">Update Profile</button>
-</a>
 
 </body>
 </html>
