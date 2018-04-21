@@ -57,6 +57,9 @@ def logout_view(request):
         return redirect('login')
     return redirect('login')
 
+def choose_view(request):
+    return render(request, 'choose.html',{})
+
 class UserRegister(View):
     form_class = UserForm
     template_name = 'register.html'
@@ -78,7 +81,7 @@ class UserRegister(View):
             user.save()
             message = "registered successfully"
             login(request, user)
-            return redirect('first_view')
+            return redirect('choose')
         return render(request, self.template_name, {'form':form})
 
 
